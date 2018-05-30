@@ -1,11 +1,8 @@
-var express = require("express");
-var path = require("path");
-var app = express();
-var data = require("./data-service.js");
-// testing
-//data.initialize();
-//data.getAllEmployees();
-//
+const express = require("express");
+const path = require("path");
+const app = express();
+const data = require("./data-service.js");
+
 
 var HTTP_PORT = process.env.PORT || 8080;
 
@@ -26,48 +23,44 @@ app.get("/about", function(req, res){
 app.get("/managers", function(req, res){
     data.getManager()
     .then((data) => {
-        /*return JSON data*/
-        res.json(data);/////////
+        res.json(data);
     })
     .catch((err) => {
-        /* return err message in the JSON format: {message: err}*/
-        res.json(err); /////////////
+        res.json({"message": err}); 
     })
-    //res.send("<h3>TODO: get all employees who have isManager==true</h3>");
+
 });
 
 app.get("/employees", function(req, res){
     data.getAllEmployees()
     .then((data) => {
-        /*return JSON data*/
-        res.json(data);//////////
+        res.json(data);
     })
     .catch((err) => {
-        /* return err message in the JSON format: {message: err}*/
-        res.json(err); /////////////
+        res.json({"message": err});
     })
-    //res.send("<h3>TODO: get all employees</h3>");
+
 });
 
 app.get("/departments", function(req, res){
     data.getDepartments()
     .then((data) => {
-        /*return JSON data*/
-        res.json(data); ///////////
+        res.json(data);
     })
     .catch((err) => {
-        /* return err message in the JSON format: {message: err}*/
-        res.json(err); /////////////
+        res.json({"message": err});
     })
-    //res.send("<h3>TODO: get all departments</h3>");
+
+});
+
+app.use((req, res) => {
+    res.status(404).send("<img src='https://cdn-images-1.medium.com/max/1600/1*dMtM0XI574DCyD5miIcQYg.png' alt='Page not found' >");
 });
 
 data.initialize()
 .then(() => {
-    //start the server
     app.listen(HTTP_PORT, onHttpStart);
 })
 .catch(() => {
-    /*output the error to the console */
-    console.log("initialize failed");
+    console.log("Data not available");
 })
