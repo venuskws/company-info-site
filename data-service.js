@@ -85,7 +85,7 @@ module.exports.addEmployee = function(employeeData){
 
     return new Promise(function(resolve, reject) {
 
-        if (employeeData.isManager == undefined) {
+        if (employeeData.isManager === undefined) {
             employeeData.isManager = false;
         } else {
             employeeData.isManager = true;
