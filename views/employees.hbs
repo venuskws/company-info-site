@@ -1,6 +1,8 @@
 <div class="row">
 <div class="col-md-12">
-<h2>Employees</h2>
+<h2>Employees
+    <a href="/employees/add" class="btn btn-success pull-right">Add New Employee</a>
+</h2>
 <div class="table-responsive">
 <table class="table">
     <tr>
@@ -12,6 +14,7 @@
         <td>Status</td>
         <td>Department</td>
         <td>Hired&nbsp;On</td>
+        <td></td>
     </tr>
 {{#each employees}}
     <tr>
@@ -23,9 +26,10 @@
         <td><a href="/employees?status={{status}}">{{status}}</a></td>
         <td><a href="/employees?department={{department}}">{{department}}</a></td>
         <td>{{hireDate}}</td>
-        
+        <td><a href="employees/delete/{{employeeNum}}"><button class="btn btn-danger">Remove</button></a></td>
     </tr>
 {{/each}}
+
 </table>
 </div>
 </div>
