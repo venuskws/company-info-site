@@ -215,6 +215,7 @@ app.post("/employees/add", (req, res) => {
         })
         .catch((err) => {
             console.log(err);
+            res.status(500).send("Unable to add the employee");
         })
 });
 
