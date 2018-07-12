@@ -324,7 +324,7 @@ app.get("/department/:departmentId", function (req, res) {
 app.get("/employees/delete/:empNum", function(req, res){
     data.deleteEmployeeByNum(req.params.empNum)
     .then(() => {
-        res.render("employees", {});
+        res.redirect("/employees");
     })
     .catch((err) => {
         res.status(500).send("Unable to Remove Employee / Employee not found");
