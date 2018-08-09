@@ -39,8 +39,6 @@ module.exports.registerUser = function(userData) {
             reject("Passwords do not match");
         } 
         let newUser = new User(userData);
-        //newUser.save();
-        //resolve();
         
         new Promise(function(resolve, reject) {
             bcrypt.genSalt(10, function(err, salt) { // Generate a "salt" using 10 rounds
@@ -56,15 +54,17 @@ module.exports.registerUser = function(userData) {
         })
         .then(() => {
             return new Promise(function(resolve, reject) {
-                newUser.save();
-                resolve();
-                if (err) {
+                newUser.save()
+                .then(() => {
+                    resolve();
+                })
+                .catch((err) => {
                     if (err.code === 11000) {
                         reject("Username already taken");
                     } else {
                         reject("There was an error creating the user:"  + err);
                     }
-                }
+                });
             })
         })
         .then(() => {
@@ -87,26 +87,10 @@ var passwordValid = function(candidatePassword, hashedPassword, cb) {
             }
             console.log(isMatched);
             resolve(isMatched);
-            //return cb(null, isMatched);
         });
     })
-    /*
-    bcrypt.hash(inputPassword, 10)
-    .then((hash) => {
-        bcrypt.compare(password, hash)
-        .then((res) => {
-            console.log(res);
-            //console.log(password);
-            //console.log(hash);
-            return res;
-        })
-    })
-    .catch((err) => {
-        console.log("1");
-        return false;
-    })
-    */
 }
+
 module.exports.checkUser = function(userData){
     return new Promise(function(resolve, reject) {
         User.find(
@@ -114,30 +98,20 @@ module.exports.checkUser = function(userData){
         )
         .exec()
         .then((users) => {
-            //console.log(users);
-            var use = users;
             var correct;
             passwordValid(userData.password, users[0].password)
-            .then(function(v) {
-                console.log(v);
-                correct = v;
+            .then((res) => {
+                correct = res;
             })
             .catch((err) => {
                 console.log(err);
             })
             .then((result) => {
-                //console.log(correct);
                 if (users.length == 0) {
                     reject("Unable to find user: " + userData.userName);
-                //} else if (users[0].password != userData.password) {
                 } else if (!correct) {
-                    console.log(users[0].password);
-                    console.log(userData.password);
                     reject("Incorrect Password for user: " + userData.userName);
                 } else {
-                    console.log(passwordValid(userData.password, users[0].password, function(err, match) {
-                        return match;
-                    }));
                     users[0].loginHistory.push(
                         {dateTime: (new Date()).toString(),
                         userAgent: userData.userAgent}
@@ -147,7 +121,6 @@ module.exports.checkUser = function(userData){
                         {$set: {loginHistory: users[0].loginHistory}},
                     ).exec()
                     .then(()=>{
-                        console.log("dhah");
                         resolve(users[0]);
                     })
                     .catch((err)=>{

@@ -78,11 +78,9 @@ app.use(function(req, res, next) {
 });
 
 function ensureLogin(req, res, next) {
-    //console.log(req.session.user + "1");
     if (!req.session.user) {
         res.redirect("/login");
     } else {
-        console.log(req.session.user);
         next();
     }
 }
@@ -384,7 +382,6 @@ app.post("/login", (req, res) => {
             email: user.email,
             loginHistory: user.loginHistory
         }
-        //console.log(req.session);
         res.redirect("/employees");
     })
     .catch((err) => {
