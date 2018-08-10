@@ -9,9 +9,6 @@ var userSchema = new Schema({
     "password": String,
     "email": String,
     "loginHistory": {
-        //[{"dateTime": Date, "userAgent": String}]
-        //"type": Array,
-        //"property": {"dateTime": Date, "userAgent": String}
         "type": [{dateTime: Date, userAgent: String}]
     }
 });
@@ -73,9 +70,7 @@ module.exports.registerUser = function(userData) {
         .catch((err) => {
             reject(err);
         })
-        
     });
-    
 };
 
 var passwordValid = function(candidatePassword, hashedPassword, cb) {

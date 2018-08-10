@@ -72,7 +72,7 @@ module.exports.getAllEmployees = function() {
 
 
 
-module.exports.getManager = function() {
+/* module.exports.getManager = function() {
 
     return new Promise(function (resolve, reject) {
         reject();
@@ -92,8 +92,8 @@ module.exports.getManager = function() {
         }
     })
 */
-
-}
+/*
+} */
 
 module.exports.getDepartments = function() {
 

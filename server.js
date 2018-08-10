@@ -1,5 +1,5 @@
 /*********************************************************************************
-*  WEB322 – Assignment 05
+*  WEB322 – Assignment 06
 *  I declare that this assignment is my own work in accordance with Seneca  Academic Policy.  No part 
 *  of this assignment has been copied manually or electronically from any other source 
 *  (including 3rd party web sites) or distributed to other students.
@@ -130,16 +130,14 @@ app.get("/images", ensureLogin, (req, res) => {
 
 
 app.get("/", function (req, res) {
-    res.render('home', {
-    });
+    res.render('home', {});
 });
 
 app.get("/about", function (req, res) {
-    res.render('about', {
-    });
+    res.render('about', {});
 });
 
-app.get("/managers", ensureLogin, function (req, res) {
+/* app.get("/managers", ensureLogin, function (req, res) {
     data.getManager()
         .then((data) => {
             res.json(data);
@@ -148,26 +146,22 @@ app.get("/managers", ensureLogin, function (req, res) {
             res.json({ "message": err });
         })
 
-});
+}); */
 
 app.get("/employees", ensureLogin, function (req, res) {
 
     data.getAllEmployees()
         .then(
             (employees) => {
-
                 if (req.query.status) {
                     return data.getEmployeesByStatus(req.query.status);
                 }
-
                 else if (req.query.department) {
                     return data.getEmployeesByDepartment(req.query.department);
                 }
-
                 else if (req.query.manager) {
                     return data.getEmployeesByManager(req.query.manager);
                 }
-
                 else {
                     return employees;
                 }
@@ -186,7 +180,6 @@ app.get("/employees", ensureLogin, function (req, res) {
         .catch((err) => {
             res.render({message: "failure to get employees data"});
         })
-
 });
 
 app.get("/departments", ensureLogin, function (req, res) {
@@ -200,13 +193,11 @@ app.get("/departments", ensureLogin, function (req, res) {
                 res.render("departments", {
                     message: "no results"
                 });
-            }
-            
+            }            
         })
         .catch((err) => {
             res.render({message: "failure to get departments data"});
-        })
-
+        });
 });
 
 /* Assignment 3&5 */
@@ -225,9 +216,7 @@ app.get("/employees/add", ensureLogin, function (req, res) {
 });
 
 app.get("/images/add", ensureLogin, function (req, res) {
-    res.render('addImage', {
-
-    });
+    res.render('addImage', {});
 });
 
 app.post("/employees/add", ensureLogin, (req, res) => {
@@ -249,8 +238,7 @@ app.post("/employee/update", ensureLogin, (req, res) => {
     })
     .catch((err) => {
         res.json({ "message": err });
-    })
-    
+    })    
 });
 /*             */
 
@@ -301,9 +289,7 @@ app.get("/employee/:employeeNum", ensureLogin, function (req, res) {
 
 /* Assignment 5 */
 app.get("/departments/add", ensureLogin, function(req, res) {
-    res.render('addDepartment', {
-
-    });
+    res.render('addDepartment', {});
 });
 
 app.post("/departments/add", ensureLogin, function(req, res) {
@@ -395,7 +381,6 @@ app.get("/logout", (req, res) => {
 });
 
 app.get("/userHistory", ensureLogin, (req, res) => {
-    //console.log(req.session.user.loginHistory);
     res.render("userHistory", {user: req.session.user});
 });
 
