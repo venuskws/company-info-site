@@ -18,7 +18,7 @@ var connectionString = 'mongodb://mongoDB2_web322:123456abc@ds149279.mlab.com:49
 
 module.exports.initialize = function() {
     return new Promise(function(resolve, reject) {
-        let db = mongoose.createConnection(connectionString);
+        let db = mongoose.createConnection(connectionString, {useNewUrlParser: true});
 
         db.on('error', (err) => {
             reject(err);
